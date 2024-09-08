@@ -1,0 +1,7 @@
+## Interface: 110002
+## Title: Grey Loot Chat Filter
+## Notes: Hides grey items from the loot log
+## Author: Brearhug-Proudmoore-US
+## Version: 1.0.0
+
+GreyLootChatFilter.lua
