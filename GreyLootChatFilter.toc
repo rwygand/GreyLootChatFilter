@@ -1,8 +1,8 @@
-## Interface: 110100
+## Interface: 110105, 110107
 ## Title: Grey Loot Chat Filter
 ## Notes: Hides grey items from the loot log
-## Author: Brearhug-Proudmoore-US
-## Version: @project-version@
+## Author: Bearhug-Proudmoore-US
+## Version: v1.0.8
 ## X-Curse-Project-ID: 1099344
 ## X-Wago-ID: nGvpd26x
 ## Category: Loot
