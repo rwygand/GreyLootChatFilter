@@ -1,6 +1,10 @@
 local filterFunc = function(self, event, msg, author, ...)
-    local itemName = string.match(msg, "%[(.-)%]")
-    local item, _, quality = GetItemInfo(itemName)
+    local itemInfo = string.match(msg, "%[(.-)%]")
+    local itemName, _, quality = GetItemInfo(itemInfo)
+    if quality == nil then
+	    print("nil quality for " .. itemInfo)
+	    return false;
+    end
     if quality == 0 then
         return true;
     end
