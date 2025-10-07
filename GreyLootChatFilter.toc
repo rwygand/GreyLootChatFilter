@@ -5,6 +5,7 @@
 ## Version: v1.0.10
 ## X-Curse-Project-ID: 1099344
 ## X-Wago-ID: nGvpd26x
-## Category: Loot
+## Category: Chat
+## SavedVariables: GreyLootChatFilterDB
 
 GreyLootChatFilter.lua
