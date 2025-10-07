@@ -1,4 +1,4 @@
-## Interface: 110105, 110107, 110200
+## Interface: 110250
 ## Title: Grey Loot Chat Filter
 ## Notes: Hides grey items from the loot log
 ## Author: Bearhug-Proudmoore-US
