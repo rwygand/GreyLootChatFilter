@@ -1,39 +1,54 @@
 -- Settings
+local frame = CreateFrame("FRAME")
+local category = Settings.RegisterVerticalLayoutCategory("GreyLootChatFilter")
 
-local function OnSettingChanged(_, setting, value)
+local function OnSettingChanged(setting, value)
+	-- This callback will be invoked whenever a setting is modified.
 	local variable = setting:GetVariable()
-	MyAddOn_SavedVars[variable] = value
+	print("Setting changed:", variable, value)
 end
 
-local category = Settings.RegisterVerticalLayoutCategory("GretLootChatFilter")
+frame:RegisterEvent("ADDON_LOADED")
+frame:SetScript("OnEvent", function(self, event, addonName)
+	if addonName == "GreyLootChatFilter" then
+		print("Initializing SavedVariables for GreyLootChatFilter")
+		if not GreyLootChatFilterDB then
+			GreyLootChatFilterDB = {}
+		end
 
-do
-    local variable = "filterGreyLoot"
-    local name = "Filter Grey Loot"
-    local tooltip = "If on, gray items will not appear in your chat log when looted."
-    local defaultValue = true
+		for k,v in pairs(GreyLootChatFilterDB) do
+        		print(k.." = ".. (v and "true" or "false"))
+		end
 
-    local setting = Settings.RegisterAddOnSetting(category, name, variable, type(defaultValue), defaultValue)
-    Settings.CreateCheckbox(category, setting, tooltip)
-	Settings.SetOnValueChangedCallback(variable, OnSettingChanged)
-end
+	local name = "Filter Grey Loot? "
+	local variable = "GreyLootChatFilter_filterGreyLoot"
+	local variableKey = "filterGreyLoot"
+	local defaultValue = true
 
-do
-    local variable = "filterCraftingChat"
-    local name = "Filter Crafting Chat"
-    local tooltip = "If on, when chat logs from people crafting around you will be filtered."
-    local defaultValue = true
+	local setting = Settings.RegisterAddOnSetting(category, variable, variableKey, GreyLootChatFilterDB, type(defaultValue), name, defaultValue)
+	setting:SetValueChangedCallback(OnSettingChanged)
 
-    local setting = Settings.RegisterAddOnSetting(category, name, variable, type(defaultValue), defaultValue)
-    Settings.CreateCheckbox(category, setting, tooltip)
-	Settings.SetOnValueChangedCallback(variable, OnSettingChanged)
-end
+	local tooltip = "When enabled, filters gray loot items from your chat log."
+	Settings.CreateCheckbox(category, setting, tooltip)
+
+	local name = "Filter Other's Crafting Messages? "
+	local variable = "GreyLootChatFilter_filterCraftingChat"
+	local variableKey = "filterCraftingChat"
+
+	local setting = Settings.RegisterAddOnSetting(category, variable, variableKey, GreyLootChatFilterDB, type(defaultValue), name, defaultValue)
+	setting:SetValueChangedCallback(OnSettingChanged)
+
+	local tooltip = "When enabled, filters other people's crafting messages."
+	Settings.CreateCheckbox(category, setting, tooltip)
+
+	end
+end)
 
 Settings.RegisterAddOnCategory(category)
 
 -- end Settings
 
-local GreyLootChatFilter:filterFunc = function(self, event, msg, author, ...)
+local filterFunc = function(self, event, msg, author, ...)
     if GreyLootChatFilterDB.filterGreyLoot then
         local itemInfo = string.match(msg, "%[(.-)%]")
         local _, _, quality = C_Item.GetItemInfo(itemInfo)
@@ -43,9 +58,19 @@ local GreyLootChatFilter:filterFunc = function(self, event, msg, author, ...)
 		        return true
 	        end
         end
+    else
+	    print("Didn't filter this item because config is false")
     end
 
     return false
 end
 
-ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", GreyLootChatFilter:filterFunc)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", filterFunc)
+
+local craftingFilterFunc = function(self, event, msg, author, ...)
+    if GreyLootChatFilterDB.filterCraftingChat and author ~= UnitName("player") then
+        return true
+    end
+end
+ChatFrame_AddMessageEventFilter("CHAT_MSG_TRADESKILLS", craftingFilterFunc)
+
