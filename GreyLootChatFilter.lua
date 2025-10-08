@@ -5,20 +5,20 @@ local category = Settings.RegisterVerticalLayoutCategory("GreyLootChatFilter")
 local function OnSettingChanged(setting, value)
 	-- This callback will be invoked whenever a setting is modified.
 	local variable = setting:GetVariable()
-	print("Setting changed:", variable, value)
+	--print("Setting changed:", variable, value)
 end
 
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, addonName)
 	if addonName == "GreyLootChatFilter" then
-		print("Initializing SavedVariables for GreyLootChatFilter")
+		--print("Initializing SavedVariables for GreyLootChatFilter")
 		if not GreyLootChatFilterDB then
 			GreyLootChatFilterDB = {}
 		end
 
-		for k,v in pairs(GreyLootChatFilterDB) do
-        		print(k.." = ".. (v and "true" or "false"))
-		end
+		--for k,v in pairs(GreyLootChatFilterDB) do
+        --		print(k.." = ".. (v and "true" or "false"))
+		--end
 
 	local name = "Filter Grey Loot? "
 	local variable = "GreyLootChatFilter_filterGreyLoot"
@@ -58,8 +58,8 @@ local filterFunc = function(self, event, msg, author, ...)
 		        return true
 	        end
         end
-    else
-	    print("Didn't filter this item because config is false")
+    --else
+	    --print("Didn't filter this item because config is false")
     end
 
     return false
