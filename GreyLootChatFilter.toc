@@ -2,7 +2,7 @@
 ## Title: Grey Loot Chat Filter
 ## Notes: Hides grey items from the loot log
 ## Author: Bearhug-Proudmoore-US
-## Version: v1.0.10
+## Version: v1.0.12
 ## X-Curse-Project-ID: 1099344
 ## X-Wago-ID: nGvpd26x
 ## Category: Chat
